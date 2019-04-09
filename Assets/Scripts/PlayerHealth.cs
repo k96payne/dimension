@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public int currentHealth;
     public int numOfHearts;
+    Vector3 respawnPoint = new Vector3(5, 2, -5);
 
     public Image[] hearts;
     public Sprite fullHeart;
@@ -56,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.tag == "Enemy" && !starActive)
         {
             rb = GetComponent<Rigidbody>();
-            rb.AddForce(rb.transform.forward * -25f,ForceMode.Impulse);
+            //rb.AddForce(rb.transform.forward * -25f,ForceMode.Impulse);
             Debug.Log("OUCH");
             DealDamage(1);
         }
@@ -125,14 +126,23 @@ public class PlayerHealth : MonoBehaviour
         //while(starDuration >= 0.0f)
         //{
         //    starDuration -= Time.deltaTime;
-
         //}
         //starActive = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            respawnPoint = transform.position;
+            Destroy(other.gameObject, 0);
+        }
+    }
+
     public void playerDeath()
     {
         Debug.Log("YOU DIED.");
-        transform.position = new Vector3(5, 2, -5);
+        transform.position = respawnPoint;
         currentHealth = 3;
         for (int i = hearts.Length - 1; i >= 0; i--)
         {

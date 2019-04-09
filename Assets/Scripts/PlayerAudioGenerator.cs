@@ -17,6 +17,14 @@ public class PlayerAudioGenerator : MonoBehaviour
         InitAudioSources();
     }
 
+    public void SetVolume(float volume)
+    {
+        foreach(AudioSource audioSource in audioSources)
+        {
+            audioSource.volume = volume;
+        }
+    }
+
     void Update()
     {
         //

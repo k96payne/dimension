@@ -12,7 +12,7 @@ public class PlayerLookController : MonoBehaviour
 
     private GameObject playerGameObject;
     private Vector2 smoothMouse;
-    private bool cursorIsVisible = false;
+   //private bool cursorIsVisible = false;
     private Vector2 mouseAbsolute;
     private Rigidbody playerRigidBody;
 
@@ -24,33 +24,36 @@ public class PlayerLookController : MonoBehaviour
 
     void Update()
     {
-        lookHandler();
+        LookHandler();
     }
 
-    void lookHandler()
+    void LookHandler()
     {
-        Vector2 mouseDelta = Vector2.Scale(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")), 
-            new Vector2(lookSensitivity, lookSensitivity));
+       //if (!cursorIsVisible)
+       //{
+            Vector2 mouseDelta = Vector2.Scale(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")),
+                new Vector2(lookSensitivity, lookSensitivity));
 
-        smoothMouse.x = Mathf.Lerp(smoothMouse.x, mouseDelta.x, 1f / smoothingWeight);
-        smoothMouse.y = Mathf.Lerp(smoothMouse.y, mouseDelta.y, 1f / smoothingWeight);
-        mouseAbsolute += smoothMouse;
-        mouseAbsolute.y = Mathf.Clamp(mouseAbsolute.y, yLowClampAngle, yLowClampAngle + yClampRange);
+            smoothMouse.x = Mathf.Lerp(smoothMouse.x, mouseDelta.x, 1f / smoothingWeight);
+            smoothMouse.y = Mathf.Lerp(smoothMouse.y, mouseDelta.y, 1f / smoothingWeight);
+            mouseAbsolute += smoothMouse;
+            mouseAbsolute.y = Mathf.Clamp(mouseAbsolute.y, yLowClampAngle, yLowClampAngle + yClampRange);
 
-        transform.localRotation = Quaternion.AngleAxis(-mouseAbsolute.y, Vector3.right);
-        playerRigidBody.rotation = Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f));
-        playerRigidBody.MoveRotation(Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f)));
+            transform.localRotation = Quaternion.AngleAxis(-mouseAbsolute.y, Vector3.right);
+            playerRigidBody.rotation = Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f));
+            playerRigidBody.MoveRotation(Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f)));
+       //}
     }
 
     private void FixedUpdate()
     {
-        Cursor.visible = cursorIsVisible;
-        Cursor.lockState = !cursorIsVisible ? CursorLockMode.Locked : CursorLockMode.None;
+        //Cursor.visible = cursorIsVisible;
+        //Cursor.lockState = !cursorIsVisible ? CursorLockMode.Locked : CursorLockMode.None;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            cursorIsVisible = !cursorIsVisible;
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    cursorIsVisible = !cursorIsVisible;
+        //}
     }
 
 }

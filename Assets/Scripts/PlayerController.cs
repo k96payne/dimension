@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public float runSpeedMultiplier = 1.5f;
     public float wallTouchRadius = 0.6f;
 
+    private bool movementPaused = false;
+
     private HudManager hud = new HudManager();
     private PlayerAudioGenerator audioGenerator;
 
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool jumpedRightWall = false;
     private bool jumpedLeftWall = false;
     private bool doubleJumpAvailable = false;
+    private bool enemyKicked = false;
 
 
     private bool punchingHand = false;
@@ -52,9 +55,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        WalkHandler();
-        JumpHandler();
-        AttackHandler();
+        if(!movementPaused)
+        {
+            WalkHandler();
+            JumpHandler();
+            AttackHandler();
+        }
     }
 
     private void FixedUpdate()
@@ -101,14 +107,13 @@ public class PlayerController : MonoBehaviour
 
     void JumpHandler()
     {
-
         if (JumpKeyPressed())
         {
             bool touchingWallLeft = (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), wallTouchRadius, leftWall));
             bool touchingWallRight = (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), wallTouchRadius, rightWall));
-            // print("LEFT: " + touchingWallLeft + " RIGHT: " + touchingWallRight);
             print("LEFT: " + Vector3.left + " RIGHT: " + Vector3.right);
-            
+
+
             if (!playerHasJumped)
             {
                 if (IsGrounded())
@@ -192,7 +197,7 @@ public class PlayerController : MonoBehaviour
         punchAvailable = false;
         punchingHand = !punchingHand;
         audioGenerator.PlaySound(PlayerAudioIndex.PUNCH);
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.6f);
         punchAvailable = true;
     }
 
@@ -206,32 +211,25 @@ public class PlayerController : MonoBehaviour
         return !kickAvailable;
     }
 
+    public void EnemeyKicked()
+    {
+        enemyKicked = true;
+    }
+
+    public bool Kicked()
+    {
+        return enemyKicked;
+    }
+
     //same as punch animation method above
     IEnumerator Kick()
     {
         kickAvailable = false;
         audioGenerator.PlaySound(PlayerAudioIndex.KICK);
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(1.2f);
         kickAvailable = true;
+        enemyKicked = false;
     }
-
-    ////Detects collision with enemy
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.tag == "Enemy")
-    //    {
-    //        //makes sure animation is running/punch key has been pressed. if this check it not here, the player can walk into the enemy and damage it
-    //        if (!punchAvailable)
-    //        {
-    //            GameObject enemy = collision.gameObject;
-    //            EnemyAI temp = (EnemyAI)enemy.GetComponent(typeof(EnemyAI));
-
-    //            //DamageEnemy takes in a force vector. FIXME these values are just for testing. might want to lower them
-    //            temp.DamageEnemy(new Vector3(10000f, 10000f, 10000f), collision.gameObject.GetComponent<Rigidbody>());
-    //        }
-    //    }
-    //    else return;
-    //}
 
     private bool JumpKeyPressed()
     {
@@ -239,13 +237,11 @@ public class PlayerController : MonoBehaviour
     }
     private bool PunchKeyPressed()
     {
-        //return Input.GetAxis("Punch") > 0f;
         return Input.GetKeyDown(KeyCode.Space);
     }
 
     private bool KickKeyPressed()
     {
-        // return Input.GetAxis("Kick") > 0f;
         return Input.GetKeyDown(KeyCode.Mouse1);
     }
 
@@ -258,16 +254,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             float distance = playerCollider.bounds.extents.y + 0.1f;
-            //if (Physics.Raycast(transform.position, -Vector3.up, distance, leftWall) || Physics.Raycast(transform.position, -Vector3.up, distance, rightWall))
-            // return false;
             return Physics.Raycast(transform.position, -Vector3.up, distance);
         }
     }
 
     private bool IsOnRock()
     {
+        float distance = playerCollider.bounds.extents.y + 0.1f;
         LayerMask rock = LayerMask.GetMask("Rock");
-        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), 0.2f, rock);
+        return Physics.Raycast(transform.position, -Vector3.up, distance, rock);
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -278,10 +273,14 @@ public class PlayerController : MonoBehaviour
 
 
             GameObject player = this.gameObject;
-            PlayerHealth temp = (PlayerHealth)player.GetComponent(typeof(PlayerHealth));
-            temp.playerDeath();
+            PlayerHealth playerH = (PlayerHealth)player.GetComponent(typeof(PlayerHealth));
+            playerH.playerDeath();
 
-            //transform.position = new Vector3(5, 2, -5);
         }
+    }
+
+    public void ToggleMovement()
+    {
+        movementPaused = !movementPaused;
     }
 }

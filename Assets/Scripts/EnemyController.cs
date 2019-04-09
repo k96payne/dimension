@@ -6,7 +6,10 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public bool beenPunched = false;
+    public bool kicked = false;
     public bool patrolOnly = false;
+    public Vector3 direction;
+    public int health = 3;
 
     public State currentState;
     public Transform[] patrolPoints;
@@ -15,12 +18,15 @@ public class EnemyController : MonoBehaviour
     public State remainState;
     public GameObject projectile;
 
+    LayerMask enemyPlatform;
+
     [HideInInspector] public int nextPatrolPoint;
     [HideInInspector] public Transform chasePlayer;
     [HideInInspector] public float stateTimeElapsed = 0;
 
     void Awake()
     {
+        enemyPlatform = LayerMask.GetMask("EnemySurface");
         chasePlayer = patrolPoints[0];
         agent = GetComponent<NavMeshAgent>();
     }
@@ -28,8 +34,11 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-       // if (!patrolOnly)
-        currentState.UpdateState(this);
+        if (health <= 0)
+            Destroy(gameObject, 0);
+
+        if (agent.enabled && Physics.Raycast(transform.position, -Vector3.up, 0.3f, enemyPlatform))
+            currentState.UpdateState(this);
     }
 
     void OnDrawGizmos()
@@ -60,17 +69,38 @@ public class EnemyController : MonoBehaviour
         stateTimeElapsed = 0;
     }
 
-    public void DamageEnemy(bool punch, Rigidbody enemy)
+    public void DamageEnemyKick(Vector3 dir)
     {
-        if (beenPunched || !punch)
-        {
-            Destroy(gameObject, 0);
-        }
-        else
-        {
-            beenPunched = true;
-            //enemy.AddForce(force);
-        }
+        direction = dir * 400;
+        StartCoroutine("Kick");
+    }
+
+    public void DamageEnemyPunch(Vector3 dir)
+    {
+        direction = dir * 70;
+        StartCoroutine("Punch");
+    }
+
+    IEnumerator Punch()
+    {
+        agent.enabled = false;
+        gameObject.GetComponent<Rigidbody>().AddForce(direction, ForceMode.Impulse);
+        health--;
+
+        yield return new WaitForSeconds(.25f);
+
+        agent.enabled = true;
+    }
+
+    IEnumerator Kick()
+    {
+        agent.enabled = false;
+        gameObject.GetComponent<Rigidbody>().AddForce(direction, ForceMode.Impulse);
+        health -= 2;
+
+        yield return new WaitForSeconds(.75f);
+        if (Physics.Raycast(transform.position, -Vector3.up, 0.3f, enemyPlatform)) 
+            agent.enabled = true;
     }
 
 }
