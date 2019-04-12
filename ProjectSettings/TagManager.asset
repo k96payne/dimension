@@ -12,6 +12,7 @@ TagManager:
   - Fist
   - Death
   - Menu
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

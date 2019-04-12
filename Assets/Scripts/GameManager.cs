@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public UIManager UI;
+    public GameObject playerLookController;
+
     private GameObject[] enemies;
     private GameObject player;
     private bool gamePaused = false;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         ToggleEnemyAgents();
         TogglePlayerMovement();
         TogglePausePanel();
+        ToggleLook();
     }
 
     private void ToggleCursor()
@@ -62,4 +65,8 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerController>().ToggleMovement();
     }
 
+    private void ToggleLook()
+    {
+        playerLookController.GetComponent<PlayerLookController>().TogglePlayLook();
+    }
 }

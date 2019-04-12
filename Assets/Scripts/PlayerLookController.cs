@@ -12,7 +12,7 @@ public class PlayerLookController : MonoBehaviour
 
     private GameObject playerGameObject;
     private Vector2 smoothMouse;
-   //private bool cursorIsVisible = false;
+   private bool canLook = true;
     private Vector2 mouseAbsolute;
     private Rigidbody playerRigidBody;
 
@@ -29,8 +29,8 @@ public class PlayerLookController : MonoBehaviour
 
     void LookHandler()
     {
-       //if (!cursorIsVisible)
-       //{
+       if (canLook)
+       {
             Vector2 mouseDelta = Vector2.Scale(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")),
                 new Vector2(lookSensitivity, lookSensitivity));
 
@@ -42,18 +42,12 @@ public class PlayerLookController : MonoBehaviour
             transform.localRotation = Quaternion.AngleAxis(-mouseAbsolute.y, Vector3.right);
             playerRigidBody.rotation = Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f));
             playerRigidBody.MoveRotation(Quaternion.Euler(playerRigidBody.rotation.eulerAngles + new Vector3(0f, lookSensitivity * Input.GetAxis("Mouse X"), 0f)));
-       //}
+       }
     }
 
-    private void FixedUpdate()
+   public void TogglePlayLook()
     {
-        //Cursor.visible = cursorIsVisible;
-        //Cursor.lockState = !cursorIsVisible ? CursorLockMode.Locked : CursorLockMode.None;
-
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    cursorIsVisible = !cursorIsVisible;
-        //}
+        canLook = !canLook;
     }
 
 }
