@@ -13,7 +13,10 @@ EditorBuildSettings:
     guid: 00000000000000000000000000000000
   - enabled: 0
     path: 
-    guid: ad65e4c1a43e14235aea8c26e0b3b1eb
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/StoryScenes+Sibling/OpeningStory.unity
+    guid: 95b0e747b99154ec092d3fecfd0313f7
   - enabled: 1
     path: Assets/Help&Start/StartScreen.unity
     guid: 14322c311b691467dae51ff0f01c07c5
@@ -26,9 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Credits/Credits.unity
     guid: 63cad46a43b3d4f0194537f873a8892d
-  - enabled: 1
-    path: Assets/StoryScenes+Sibling/OpeningStory.unity
-    guid: 95b0e747b99154ec092d3fecfd0313f7
   - enabled: 1
     path: Assets/StoryScenes+Sibling/Closing Story.unity
     guid: dd4dbc7302bd4422abbe4c9be58ca41c

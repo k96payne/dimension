@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,8 +56,8 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject enemy in enemies)
         {
-            EnemyController enemyController = enemy.GetComponent<EnemyController>();
-            enemyController.agent.enabled = !enemyController.agent.enabled;
+            AIHealth ai = enemy.GetComponent<AIHealth>();
+            ai.GetComponent<NavMeshAgent>().enabled = !ai.GetComponent<NavMeshAgent>().enabled;
         }
     }
 

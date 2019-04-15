@@ -22,12 +22,13 @@ public class PlayerAudioGenerator : MonoBehaviour
         foreach(AudioSource audioSource in audioSources)
         {
             audioSource.volume = volume;
+
         }
     }
 
     void Update()
     {
-        //
+        audioSources[(int)PlayerAudioIndex.KICK].volume = 0.1f; // override volume for kick
     }
 
     private void InitAudioSources()

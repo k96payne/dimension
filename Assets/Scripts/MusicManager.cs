@@ -22,14 +22,20 @@ public class MusicManager : MonoBehaviour
 
     public void SetSFXVolume(float volume)
     {
-        audioGenerator.SetVolume(volume);
+        if(audioGenerator)
+        {
+            audioGenerator.SetVolume(volume);
+        }
     }
 
     public void SetBackgroundVolume(float volume)
     {
-        foreach(AudioSource audioSource in audioSources)
+        if(audioSources.Length != 0)
         {
-            audioSource.volume = volume;
+            foreach (AudioSource audioSource in audioSources)
+            {
+                audioSource.volume = volume;
+            }
         }
     }
 }

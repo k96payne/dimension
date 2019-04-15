@@ -13,6 +13,8 @@ TagManager:
   - Death
   - Menu
   - Checkpoint
+  - Projectile
+  - GameEndTrigger
   layers:
   - Default
   - TransparentFX
@@ -26,9 +28,9 @@ TagManager:
   - LeftWall
   - EnemySurface
   - Rock
-  - 
-  - 
-  - 
+  - Enemy
+  - Player
+  - Grass
   - 
   - 
   - 

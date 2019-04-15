@@ -8,6 +8,11 @@ public class Goal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        sceneManager.GetComponent<LoadSceneOnClick>().LoadByIndex(5);
+        if(other.gameObject.tag == "GameEndTrigger")
+        {
+            Cursor.lockState =CursorLockMode.None;
+            Cursor.visible = true;
+            sceneManager.GetComponent<LoadSceneOnClick>().LoadByIndex(5);
+        }
     }
 }

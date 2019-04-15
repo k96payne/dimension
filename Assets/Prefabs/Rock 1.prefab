@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7402861363290175685}
   m_Layer: 11
-  m_Name: Rock
+  m_Name: Rock 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: 4300000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
---- !u!114 &3291167852218902381
+--- !u!114 &8958010882512182049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,14 +70,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7402861363997769820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70262711d1d9441f68d5be297ec4412d, type: 3}
+  m_Script: {fileID: 11500000, guid: 837e100c8176f4628a7add56ecdff51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveInZ: 0
-  moveInX: 0
-  moveInY: 1
-  translationTime: 1
-  speed: 1
 --- !u!1001 &7402861363997738748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,20 +132,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 45ad038ab744446e88c946cb3c11a607, type: 2}
-    - target: {fileID: 9500000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 76484522c8ff44e06905ca84e4f02217, type: 2}
     - target: {fileID: 2300000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
       propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 45ad038ab744446e88c946cb3c11a607, type: 2}
+    - target: {fileID: 9500000, guid: 28333f7c860c14db8bd28efb512263dc, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -14,6 +14,9 @@ public class PlayerHealth : MonoBehaviour
     public Sprite emptyHeart;
     public Image Blood;
 
+    public GameObject[] newHearts;
+    public GameObject[] newHeartsDead;
+
     Rigidbody rb;
 
     bool starActive = false;
@@ -50,6 +53,21 @@ public class PlayerHealth : MonoBehaviour
             tookDamage = false;
             bloodDuration = 0.5f;
         }
+
+        for(int i = 0; i < 3; i++)
+        {
+            print(currentHealth);
+            if(i <= (currentHealth - 1))
+            {
+                newHearts[i].SetActive(true);
+                newHeartsDead[i].SetActive(false);
+            }
+            else
+            {
+                newHearts[i].SetActive(false);
+                newHeartsDead[i].SetActive(true);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -74,7 +92,9 @@ public class PlayerHealth : MonoBehaviour
         }
 
 
+
     }
+
 
     void DealDamage(int damageValue)
     {
@@ -136,6 +156,12 @@ public class PlayerHealth : MonoBehaviour
         {
             respawnPoint = transform.position;
             Destroy(other.gameObject, 0);
+        }
+
+        if (other.gameObject.tag == "Projectile")
+        {
+            Destroy(other.gameObject);
+            DealDamage(1);
         }
     }
 
